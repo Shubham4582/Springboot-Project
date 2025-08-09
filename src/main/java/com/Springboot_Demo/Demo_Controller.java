@@ -6,10 +6,12 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 //@Controller 
@@ -56,7 +58,13 @@ public class Demo_Controller {
 	@GetMapping("/id")
 	public Employee getEmployee(@RequestParam int id) {
 		Optional<Employee> option = jpa1.findById(id);
+//		jpa1.delete(option.get()); // also used to delete the employee by object
 		return option.isPresent() ? option.get() : option.get();
+	}
+
+	@DeleteMapping("/id")
+	public void deleteEmployee(@RequestParam int id) {
+		jpa1.deleteById(id);
 	}
 
 	@PostMapping("/mobile")
