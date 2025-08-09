@@ -38,6 +38,10 @@ public class Demo_Controller {
 		return name;
 	}
 
+	@GetMapping("/all")
+	public List<Employee> getAll(){
+		return jpa1.findAll();
+	}
 	@PostMapping("/create")
 	public String createEmployee(@RequestBody Employee e) {
 		System.out.println(e.getId() + " " + e.getName() + " " + e.getSalary());
