@@ -3,31 +3,36 @@ package com.Springboot_Demo;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+@Entity
 public class Employee {
 
+	@Id
 	private int id;
 	private String name;
 	private double salary;
 
-	private List<String> project;
+	//private List<String> project;
 
-	private Map<String, String> skills;
+	//private Map<String, String> skills;
 
-	public Map<String, String> getSkills() {
-		return skills;
-	}
-
-	public void setSkills(Map<String, String> skills) {
-		this.skills = skills;
-	}
-
-	public List<String> getProject() {
-		return project;
-	}
-
-	public void setProject(List<String> project) {
-		this.project = project;
-	}
+//	public Map<String, String> getSkills() {
+//		return skills;
+//	}
+//
+//	public void setSkills(Map<String, String> skills) {
+//		this.skills = skills;
+//	}
+//
+//	public List<String> getProject() {
+//		return project;
+//	}
+//
+//	public void setProject(List<String> project) {
+//		this.project = project;
+//	}
 
 	public int getId() {
 		return id;
