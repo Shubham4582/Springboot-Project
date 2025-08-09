@@ -1,49 +1,50 @@
 package com.Springboot_Demo;
 
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 public class Mobile {
 
-	private String brand;
-	private String ram;
-	private String price;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	private List<App> app;
+    private String brand;
+    private String ram;
+    private String price;
 
-	public String getBrand() {
-		return brand;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getRam() {
-		return ram;
-	}
+    public String getBrand() {
+        return brand;
+    }
 
-	public void setRam(String ram) {
-		this.ram = ram;
-	}
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
 
-	public String getPrice() {
-		return price;
-	}
+    public String getRam() {
+        return ram;
+    }
 
-	public void setPrice(String price) {
-		this.price = price;
-	}
+    public void setRam(String ram) {
+        this.ram = ram;
+    }
 
-	public List<App> getApp() {
-		return app;
-	}
+    public String getPrice() {
+        return price;
+    }
 
-	public void setApp(List<App> app) {
-		this.app = app;
-	}
-	
-	@Override
-	public String toString() {
-		return "Mobile [brand=" + brand + ", ram=" + ram + ", price=" + price + ", app=" + app + "]";
-	}
+    public void setPrice(String price) {
+        this.price = price;
+    }
 }

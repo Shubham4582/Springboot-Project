@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class Demo_Controller {
 
 	@Autowired
-	Employee_JPA jpa;
+	Employee_JPA jpa1;
+	@Autowired
+	Mobile_JPA jpa2;
 
 	@GetMapping("/a")
 	// @ResponseBody
@@ -39,7 +41,7 @@ public class Demo_Controller {
 	@PostMapping("/create")
 	public String createEmployee(@RequestBody Employee e) {
 		System.out.println(e.getId() + " " + e.getName() + " " + e.getSalary());
-		jpa.save(e);
+		jpa1.save(e);
 //		System.out.println(e.getProject());
 //		System.out.println(e.getSkills());
 		return e.getId() + " " + e.getName() + " " + e.getSalary();
@@ -47,12 +49,13 @@ public class Demo_Controller {
 
 	@PostMapping("/mobile")
 	public String createMobile(@RequestBody Mobile m) {
-		System.out.println(m.getApp());
+		jpa2.save(m);
+//		System.out.println(m.getApp());
 
-		List<App> app = m.getApp();
-		for (App i : app) {
-			System.out.println(i.getUser());
-		}
+//		List<App> app = m.getApp();
+//		for (App i : app) {
+//			System.out.println(i.getUser());
+//		}
 
 		return m.getBrand();
 	}
