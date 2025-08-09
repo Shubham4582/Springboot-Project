@@ -3,6 +3,7 @@ package com.Springboot_Demo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,9 +40,10 @@ public class Demo_Controller {
 	}
 
 	@GetMapping("/all")
-	public List<Employee> getAll(){
+	public List<Employee> getAll() {
 		return jpa1.findAll();
 	}
+
 	@PostMapping("/create")
 	public String createEmployee(@RequestBody Employee e) {
 		System.out.println(e.getId() + " " + e.getName() + " " + e.getSalary());
@@ -49,6 +51,12 @@ public class Demo_Controller {
 //		System.out.println(e.getProject());
 //		System.out.println(e.getSkills());
 		return e.getId() + " " + e.getName() + " " + e.getSalary();
+	}
+
+	@GetMapping("/id")
+	public Employee getEmployee(@RequestParam int id) {
+		Optional<Employee> option = jpa1.findById(id);
+		return option.isPresent() ? option.get() : option.get();
 	}
 
 	@PostMapping("/mobile")
