@@ -8,10 +8,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 //@Controller 
@@ -21,6 +21,8 @@ public class Demo_Controller {
 
 	@Autowired
 	Employee_JPA jpa1;
+	@Autowired
+	Employee_DAO dao;
 	@Autowired
 	Mobile_JPA jpa2;
 
@@ -41,31 +43,81 @@ public class Demo_Controller {
 		return name;
 	}
 
+//	@GetMapping("/all")
+//	public List<Employee> getAll() {
+//		return jpa1.findAll();
+//	}
+
 	@GetMapping("/all")
 	public List<Employee> getAll() {
-		return jpa1.findAll();
+		return dao.getAllEmployees();
 	}
+
+//	@PostMapping("/create")
+//	public String createEmployee(@RequestBody Employee e) {
+//		System.out.println(e.getId() + " " + e.getName() + " " + e.getSalary());
+//		jpa1.save(e);
+////		System.out.println(e.getProject());
+////		System.out.println(e.getSkills());
+//		return e.getId() + " " + e.getName() + " " + e.getSalary();
+//	}
 
 	@PostMapping("/create")
-	public String createEmployee(@RequestBody Employee e) {
-		System.out.println(e.getId() + " " + e.getName() + " " + e.getSalary());
-		jpa1.save(e);
-//		System.out.println(e.getProject());
-//		System.out.println(e.getSkills());
-		return e.getId() + " " + e.getName() + " " + e.getSalary();
+	public Employee createEmployee(@RequestBody Employee e) {
+		return dao.saveEmployee(e);
 	}
 
-	@GetMapping("/id")
+//	@GetMapping("/get")
+//	public Employee getEmployee(@RequestParam int id) {
+//		Optional<Employee> option = jpa1.findById(id);
+////		jpa1.delete(option.get()); // also used to delete the employee by object
+//		return option.isPresent() ? option.get() : option.get();
+//	}
+
+	@GetMapping("/get")
 	public Employee getEmployee(@RequestParam int id) {
-		Optional<Employee> option = jpa1.findById(id);
-//		jpa1.delete(option.get()); // also used to delete the employee by object
+		Optional<Employee> option = dao.getEmployeeById(id);
 		return option.isPresent() ? option.get() : option.get();
 	}
 
-	@DeleteMapping("/id")
-	public void deleteEmployee(@RequestParam int id) {
-		jpa1.deleteById(id);
+//	@DeleteMapping("/delete")
+//	public String deleteEmployee(@RequestParam int id) {
+//		Optional<Employee> option = jpa1.findById(id);
+//		if (option.isPresent()) {
+//			jpa1.delete(option.get());
+//			return "Removed";
+//		} else {
+//			return "Not Exist";
+//		}
+//	}
+	
+	@DeleteMapping("/delete")
+	public String deleteEmployee(@RequestParam int id) {
+	    Optional<Employee> option = dao.getEmployeeById(id);
+	    if (option.isPresent()) {
+	        dao.deleteEmployee(id);
+	        return "Removed";
+	    } else {
+	        return "Not Exist";
+	    }
 	}
+
+
+//	@GetMapping("/name")
+//	public List<Employee> getName(@RequestParam String name) {
+//		return jpa1.getByName(name);
+//	}
+
+//	@GetMapping("/name/{name}")
+//	public List<Employee> findName(@PathVariable String name) {
+//		return jpa1.findByName(name);
+//	}
+	
+	@GetMapping("/name/{name}")
+	public List<Employee> findName(@PathVariable String name) {
+	    return dao.getEmployeesByName(name);
+	}
+
 
 	@PostMapping("/mobile")
 	public String createMobile(@RequestBody Mobile m) {
@@ -76,7 +128,6 @@ public class Demo_Controller {
 //		for (App i : app) {
 //			System.out.println(i.getUser());
 //		}
-
 		return m.getBrand();
 	}
 
