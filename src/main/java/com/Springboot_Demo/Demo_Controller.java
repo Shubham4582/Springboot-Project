@@ -15,33 +15,51 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 //@Controller 
-@RestController // @RestController is used to send the data from Client to Controller
-// search for only view page
+@RestController 
+// @RestController is a Spring Boot annotation that combines @Controller and @ResponseBody
+// It is used to create RESTful web services, returning data directly as JSON or XML rather than a view.
 public class Demo_Controller {
 
+	// Injecting JPA repository for Employee entity
 	@Autowired
 	Employee_JPA jpa1;
+
+	// Injecting DAO layer for Employee operations
 	@Autowired
 	Employee_DAO dao;
+
+	// Injecting JPA repository for Mobile entity
 	@Autowired
 	Mobile_JPA jpa2;
 
+	// ==============================
+	// SIMPLE DEMO ENDPOINTS
+	// ==============================
+
 	@GetMapping("/a")
-	// @ResponseBody
-	// Transfer the data for the view with this @Controller gave the error
+	// Handles GET requests at "/a"
+	// Returns a simple String response
 	public String getHi() {
 		return "HI from GET";
 	}
 
 	@PostMapping("/a")
+	// Handles POST requests at "/a"
+	// Returns a simple String response
 	public String postHi() {
 		return "HI from POST";
 	}
 
 	@PostMapping("/b")
+	// Handles POST requests at "/b"
+	// Uses @RequestParam to get the "name" parameter from the request
 	public String requestHi(@RequestParam String name) {
 		return name;
 	}
+
+	// ==============================
+	// EMPLOYEE CRUD OPERATIONS
+	// ==============================
 
 //	@GetMapping("/all")
 //	public List<Employee> getAll() {
@@ -49,6 +67,7 @@ public class Demo_Controller {
 //	}
 
 	@GetMapping("/all")
+	// Returns all Employee records from the database
 	public List<Employee> getAll() {
 		return dao.getAllEmployees();
 	}
@@ -63,6 +82,8 @@ public class Demo_Controller {
 //	}
 
 	@PostMapping("/create")
+	// Creates a new Employee record
+	// @RequestBody maps the JSON body of the request to an Employee object
 	public Employee createEmployee(@RequestBody Employee e) {
 		return dao.saveEmployee(e);
 	}
@@ -75,8 +96,10 @@ public class Demo_Controller {
 //	}
 
 	@GetMapping("/get")
+	// Retrieves a specific Employee by ID using @RequestParam
 	public Employee getEmployee(@RequestParam int id) {
 		Optional<Employee> option = dao.getEmployeeById(id);
+		// Returns the employee if present; here the ternary is redundant as both branches return the same
 		return option.isPresent() ? option.get() : option.get();
 	}
 
@@ -92,6 +115,7 @@ public class Demo_Controller {
 //	}
 	
 	@DeleteMapping("/delete")
+	// Deletes an Employee by ID if it exists
 	public String deleteEmployee(@RequestParam int id) {
 	    Optional<Employee> option = dao.getEmployeeById(id);
 	    if (option.isPresent()) {
@@ -101,7 +125,6 @@ public class Demo_Controller {
 	        return "Not Exist";
 	    }
 	}
-
 
 //	@GetMapping("/name")
 //	public List<Employee> getName(@RequestParam String name) {
@@ -114,12 +137,17 @@ public class Demo_Controller {
 //	}
 	
 	@GetMapping("/name/{name}")
+	// Finds employees by name using @PathVariable
 	public List<Employee> findName(@PathVariable String name) {
 	    return dao.getEmployeesByName(name);
 	}
 
+	// ==============================
+	// MOBILE OPERATIONS
+	// ==============================
 
 	@PostMapping("/mobile")
+	// Creates a new Mobile record in the database
 	public String createMobile(@RequestBody Mobile m) {
 		jpa2.save(m);
 //		System.out.println(m.getApp());
@@ -131,7 +159,12 @@ public class Demo_Controller {
 		return m.getBrand();
 	}
 
+	// ==============================
+	// SAMPLE STATIC EMPLOYEE
+	// ==============================
+
 	@GetMapping("/getemp")
+	// Returns a hardcoded Employee object (example/test data)
 	public Employee getEmployee() {
 		Employee e = new Employee();
 		e.setId(1);
